@@ -38,8 +38,9 @@ Le besoin principal est de permettre à un particulier de choisir une catégorie
 
 Les écrans à présenter en mobile, tablette et ordinateur sont : accueil, liste par catégorie, résultats de recherche, fiche artisan avec formulaire, pages légales et page 404. Le parcours privilégie de gros contrôles, des libellés explicites, une hiérarchie visuelle courte et un contraste élevé.
 
-**Lien Figma :** https://www.figma.com/design/ihplUL3iLSQAA9iLKhdYzA/Sans-titre?node-id=2-2  
-**Captures des maquettes :** [À insérer]
+**Lien Figma :** https://www.figma.com/design/ihplUL3iLSQAA9iLKhdYzA/Sans-titre?node-id=2-2
+
+Les maquettes présentent les principaux écrans et leurs déclinaisons responsive.
 
 ## 4. Base de données
 
