@@ -83,7 +83,7 @@ CONTACT_FROM=no-reply@trouve-ton-artisan.fr
 
 `DB_SSL` doit être réglé sur `true` pour la base Aiven utilisée en ligne.
 
-La configuration SMTP est facultative pour tester le projet. Sans SMTP, le formulaire est contrôlé par l'API, mais aucun e-mail réel n'est envoyé. Pour un envoi réel, il faut compléter les quatre variables SMTP.
+La configuration SMTP est facultative pour tester le projet en local. Sans SMTP, le formulaire est contrôlé par l'API, mais aucun e-mail réel n'est envoyé. En production, l'envoi des messages est configuré avec le relais SMTP de Brevo.
 
 Pour le frontend hébergé, `VITE_API_URL` contient l'adresse publique de l'API :
 
