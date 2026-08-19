@@ -67,7 +67,7 @@ Les clés étrangères assurent l'intégrité référentielle. Les index sur le 
 
 ## 5. Architecture et fonctionnalités
 
-Le navigateur appelle uniquement l'API REST. L'API valide la requête, interroge MySQL avec Sequelize et renvoie du JSON. Les adresses e-mail des artisans ne sont jamais renvoyées au frontend. Le formulaire est fonctionnel en mode démonstration ; un serveur SMTP doit être renseigné pour envoyer réellement les e-mails.
+Le navigateur appelle uniquement l'API REST. L'API valide la requête, interroge MySQL avec Sequelize et renvoie du JSON. Les adresses e-mail des artisans ne sont jamais renvoyées au frontend. En production, l'API transmet les messages avec le relais SMTP de Brevo.
 
 Routes principales : `GET /api/categories`, `GET /api/artisans`, `GET /api/artisans/:id`, `POST /api/artisans/:id/contact` et `GET /api/health`.
 
