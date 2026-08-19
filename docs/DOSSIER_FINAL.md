@@ -1,12 +1,10 @@
 # Dossier final - Trouve ton artisan
 
-> Document source à compléter avec les liens et captures, puis à exporter en PDF.
-
 ## Page de garde
 
 **Trouve ton artisan**  
 Conception et développement d'une plateforme régionale  
-Candidat : [Nom et prénom] - Date : [Date]
+Candidat : Simon CLEMENT - Date : 19 août 2026
 
 ## Sommaire
 
@@ -40,7 +38,7 @@ Le besoin principal est de permettre à un particulier de choisir une catégorie
 
 Les écrans à présenter en mobile, tablette et ordinateur sont : accueil, liste par catégorie, résultats de recherche, fiche artisan avec formulaire, pages légales et page 404. Le parcours privilégie de gros contrôles, des libellés explicites, une hiérarchie visuelle courte et un contraste élevé.
 
-**Lien Figma :** [À compléter]  
+**Lien Figma :** https://www.figma.com/design/ihplUL3iLSQAA9iLKhdYzA/Sans-titre?node-id=2-2  
 **Captures des maquettes :** [À insérer]
 
 ## 4. Base de données
@@ -68,7 +66,7 @@ Les clés étrangères assurent l'intégrité référentielle. Les index sur le 
 
 ## 5. Architecture et fonctionnalités
 
-Le navigateur appelle uniquement l'API REST. L'API valide la requête, interroge MySQL avec Sequelize et renvoie du JSON. Les adresses e-mail des artisans ne sont jamais renvoyées au frontend : l'envoi passe par l'API.
+Le navigateur appelle uniquement l'API REST. L'API valide la requête, interroge MySQL avec Sequelize et renvoie du JSON. Les adresses e-mail des artisans ne sont jamais renvoyées au frontend. Le formulaire est fonctionnel en mode démonstration ; un serveur SMTP doit être renseigné pour envoyer réellement les e-mails.
 
 Routes principales : `GET /api/categories`, `GET /api/artisans`, `GET /api/artisans/:id`, `POST /api/artisans/:id/contact` et `GET /api/health`.
 
@@ -100,16 +98,20 @@ Routes principales : `GET /api/categories`, `GET /api/artisans`, `GET /api/artis
 
 La veille s'appuie sur OWASP Top 10, OWASP Cheat Sheet Series, les avis GitHub et la base CVE/NVD. Une revue est réalisée avant chaque livraison : `npm audit`, lecture des avis concernant Express, Sequelize, Vite et leurs dépendances, classement par exploitabilité puis correction ou mesure compensatoire documentée.
 
-Vulnérabilités particulièrement surveillées : injection, contrôle d'accès défaillant, configuration incorrecte, XSS, SSRF, composants obsolètes et abus du formulaire. Dans ce projet, Sequelize et la validation réduisent l'injection, l'échappement React limite le XSS, Helmet durcit la configuration et la limitation de débit réduit l'automatisation abusive. Les résultats datés de l'audit final doivent être ajoutés ici avec les versions corrigées.
+Vulnérabilités particulièrement surveillées : injection, contrôle d'accès défaillant, configuration incorrecte, XSS, SSRF, composants obsolètes et abus du formulaire. Dans ce projet, Sequelize et la validation réduisent l'injection, l'échappement React limite le XSS, Helmet durcit la configuration et la limitation de débit réduit l'automatisation abusive.
+
+Audit du 19 août 2026 : aucune alerte sur le frontend. Les versions de Nodemailer et Vitest ont été mises à jour. Une alerte modérée reste présente dans une dépendance interne de Sequelize (`uuid`) ; les fonctions concernées ne sont pas utilisées directement par le projet et aucune mise à jour compatible de Sequelize ne la corrige actuellement.
 
 Sources de veille : https://owasp.org/www-project-top-ten/ ; https://cheatsheetseries.owasp.org/ ; https://github.com/advisories ; https://nvd.nist.gov/
 
 ## 9. Liens du projet
 
-- Repository GitHub : [À compléter]
-- Maquettes Figma : [À compléter]
-- Site en ligne : [À compléter]
+- Repository GitHub : https://github.com/KiozTwo/Devoir-Trouve-ton-artisan
+- Maquettes Figma : https://www.figma.com/design/ihplUL3iLSQAA9iLKhdYzA/Sans-titre?node-id=2-2
+- Site en ligne : https://trouve-ton-artisan-frontend-t6xv.onrender.com
+- API : https://trouve-ton-artisan-api-sdm4.onrender.com
 
 ## Conclusion
 
 La solution couvre le parcours attendu, sépare clairement frontend, API et données, et fournit une base maintenable pour l'alimentation future par une autre application.
+
