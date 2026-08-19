@@ -1,0 +1,1 @@
+import {useEffect} from 'react';export default function Legal({title}){useEffect(()=>{document.title=`${title} | Trouve ton artisan`},[title]);return <section className="container section legal"><h1>{title}</h1><p>Page en construction.</p></section>}
