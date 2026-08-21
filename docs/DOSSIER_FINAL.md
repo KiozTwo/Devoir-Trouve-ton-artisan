@@ -50,18 +50,23 @@ Les maquettes présentent les principaux écrans et leurs déclinaisons responsi
 erDiagram
   CATEGORIE ||--o{ SPECIALITE : contient
   SPECIALITE ||--o{ ARTISAN : regroupe
+  VILLE ||--o{ ARTISAN : localise
   CATEGORIE { int id PK string nom string slug }
   SPECIALITE { int id PK string nom int categorie_id FK }
-  ARTISAN { int id PK string nom decimal note string ville text a_propos string email string site_web string image boolean top int specialite_id FK }
+  VILLE { int id PK string nom }
+  ARTISAN { int id PK string nom decimal note text a_propos string email string site_web string image boolean top int specialite_id FK int ville_id FK }
 ```
 
-Règles de gestion : une catégorie contient zéro à plusieurs spécialités ; une spécialité appartient à une seule catégorie ; une spécialité regroupe zéro à plusieurs artisans ; un artisan appartient à une seule spécialité.
+Règles de gestion : une catégorie contient zéro à plusieurs spécialités ; une spécialité appartient à une seule catégorie ; une spécialité regroupe zéro à plusieurs artisans ; un artisan appartient à une seule spécialité et à une seule ville ; une ville peut regrouper zéro à plusieurs artisans.
+
+Le schéma graphique du MCD se trouve dans `docs/mcd.svg`.
 
 ### MLD
 
 - `CATEGORIES(id PK, name UQ, slug UQ)`
 - `SPECIALTIES(id PK, name UQ, category_id FK → CATEGORIES.id)`
-- `ARTISANS(id PK, name, rating, city, about, email, website, image, is_top, specialty_id FK → SPECIALTIES.id)`
+- `CITIES(id PK, name UQ)`
+- `ARTISANS(id PK, name, rating, about, email, website, image, is_top, specialty_id FK → SPECIALTIES.id, city_id FK → CITIES.id)`
 
 Les clés étrangères assurent l'intégrité référentielle. Les index sur le nom, la spécialité et l'indicateur « artisan du mois » accélèrent les requêtes fréquentes.
 

@@ -1,0 +1,28 @@
+import nodemailer from 'nodemailer';
+import { config } from '../config.js';
+
+export async function sendContact(artisan, payload) {
+  if (!config.smtp.host) {
+    console.info(`[contact] Message validé pour l'artisan #${artisan.id}`);
+    return { preview: true };
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: config.smtp.host,
+    port: config.smtp.port,
+    secure: config.smtp.port === 465,
+    auth: config.smtp.user
+      ? { user: config.smtp.user, pass: config.smtp.password }
+      : undefined
+  });
+
+  await transporter.sendMail({
+    from: config.smtp.from,
+    to: artisan.email,
+    replyTo: payload.email,
+    subject: `[Trouve ton artisan] ${payload.subject}`,
+    text: `Nom : ${payload.name}\nE-mail : ${payload.email}\n\n${payload.message}`
+  });
+
+  return { preview: false };
+}

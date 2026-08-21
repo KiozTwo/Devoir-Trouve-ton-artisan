@@ -1,0 +1,25 @@
+@use 'variables' as *;
+
+.navbar { min-height: 92px; background: #fff; border-bottom: 4px solid $blue; }
+.navbar-brand img { width: 155px; height: auto; }
+.nav-link { color: $navy !important; font-weight: 700; }
+.nav-link.active, .nav-link:focus, .nav-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+}
+.search { gap: 0.4rem; }
+.section { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+.highlight { background: $light-background; }
+
+footer { padding: 2.5rem 0 1rem; background: $dark; color: #fff; }
+footer h2, footer a { color: #fff; }
+footer h2 { font-size: 1.25rem; }
+.footer-grid { display: grid; gap: 2rem; }
+.footer-grid ul { padding: 0; list-style: none; }
+.copyright {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #667080;
+  text-align: center;
+}

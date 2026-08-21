@@ -1,11 +1,28 @@
-import express from 'express';import cors from 'cors';import helmet from 'helmet';import {rateLimit} from 'express-rate-limit';import {body,param,query,validationResult} from 'express-validator';import {Op} from 'sequelize';import {config} from './config.js';import {sequelize,Category,Artisan,artisanInclude} from './db.js';import {sendContact} from './mailer.js';
-export const app=express();app.disable('x-powered-by');app.use(helmet());app.use(cors({origin:config.clientOrigin,methods:['GET','POST'],allowedHeaders:['Content-Type'],maxAge:86400}));app.use(express.json({limit:'20kb'}));app.use('/api',rateLimit({windowMs:15*60*1000,limit:200,standardHeaders:'draft-7',legacyHeaders:false}));
-const validate=(req,res,next)=>{const errors=validationResult(req);return errors.isEmpty()?next():res.status(422).json({message:'Données invalides.',errors:errors.array().map(({path,msg})=>({field:path,message:msg}))})};
-app.get('/api/health',async(_req,res)=>{try{await sequelize.authenticate();res.json({status:'ok'})}catch{res.status(503).json({status:'unavailable'})}});
-app.get('/api/categories',async(_req,res,next)=>{try{res.json(await Category.findAll({attributes:['id','name','slug'],order:[['name','ASC']]}))}catch(e){next(e)}});
-app.get('/api/artisans',[query('search').optional().trim().isLength({min:1,max:100}),query('category').optional().trim().isSlug(),query('top').optional().isBoolean(),validate],async(req,res,next)=>{try{const where={};if(req.query.search)where.name={[Op.like]:`%${req.query.search.replace(/[\\%_]/g,'\\$&')}%`};if(req.query.top==='true')where.isTop=true;const include={...artisanInclude};if(req.query.category){include.required=true;include.include=[{...artisanInclude.include[0],where:{slug:req.query.category},required:true}]}const rows=await Artisan.findAll({attributes:{exclude:['email']},where,include:[include],order:[['name','ASC']]});res.json(rows)}catch(e){next(e)}});
-app.get('/api/artisans/:id',[param('id').isInt({min:1}),validate],async(req,res,next)=>{try{const row=await Artisan.findByPk(req.params.id,{attributes:{exclude:['email']},include:[artisanInclude]});if(!row)return res.status(404).json({message:'Artisan introuvable.'});res.json(row)}catch(e){next(e)}});
-const contactLimiter=rateLimit({windowMs:60*60*1000,limit:5,standardHeaders:'draft-7',legacyHeaders:false,message:{message:'Trop de messages envoyés. Réessayez plus tard.'}});
-app.post('/api/artisans/:id/contact',contactLimiter,[param('id').isInt({min:1}),body('name').trim().isLength({min:2,max:100}),body('email').trim().isEmail().normalizeEmail(),body('subject').trim().isLength({min:3,max:150}),body('message').trim().isLength({min:10,max:3000}),body('website').optional({values:'falsy'}).isEmpty(),validate],async(req,res,next)=>{try{const artisan=await Artisan.findByPk(req.params.id);if(!artisan)return res.status(404).json({message:'Artisan introuvable.'});await sendContact(artisan,req.body);res.status(202).json({message:'Votre demande a bien été prise en compte.'})}catch(e){next(e)}});
-app.use('/api',(_req,res)=>res.status(404).json({message:'Ressource introuvable.'}));app.use((err,_req,res,_next)=>{console.error(err);res.status(500).json({message:'Erreur interne du serveur.'})});
+import cors from 'cors';
+import express from 'express';
+import helmet from 'helmet';
+import { rateLimit } from 'express-rate-limit';
+import { config } from './config.js';
+import { apiNotFound, handleError } from './middlewares/errors.js';
+import { apiRouter } from './routes/apiRoutes.js';
 
+export const app = express();
+
+app.disable('x-powered-by');
+app.use(helmet());
+app.use(cors({
+  origin: config.clientOrigin,
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+  maxAge: 86400
+}));
+app.use(express.json({ limit: '20kb' }));
+app.use('/api', rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 200,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false
+}));
+app.use('/api', apiRouter);
+app.use('/api', apiNotFound);
+app.use(handleError);

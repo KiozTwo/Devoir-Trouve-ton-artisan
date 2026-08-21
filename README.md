@@ -43,9 +43,8 @@ Les services gratuits peuvent prendre quelques secondes pour démarrer après un
 ### Étapes
 
 1. Cloner ou télécharger le projet.
-2. Copier le fichier `.env.example` et renommer la copie en `.env` à la racine du projet.
-3. Compléter `.env` avec les informations de connexion à MySQL.
-4. Compléter aussi les paramètres SMTP Brevo pour activer l'envoi des messages.
+2. Créer un fichier `.env` à la racine du projet à partir du modèle présenté ci-dessous.
+3. Compléter `.env` avec les informations de connexion à MySQL et les paramètres SMTP Brevo.
 5. Exécuter `database/create_database.sql` puis `database/seed_database.sql` dans MySQL Workbench.
 6. Ouvrir un terminal à la racine du projet.
 7. Installer les dépendances :
@@ -91,7 +90,7 @@ CONTACT_FROM=
 - `SMTP_PASSWORD` contient la clé SMTP fournie par Brevo.
 - `CONTACT_FROM` contient l'adresse d'expédition autorisée dans Brevo.
 
-Le fichier `.env` contient des informations confidentielles. Il est ignoré par Git et ne doit pas être envoyé sur GitHub. Le fichier `.env.example` sert uniquement de modèle et ne contient aucun mot de passe.
+Le fichier `.env` contient des informations confidentielles. Il est ignoré par Git et ne doit pas être envoyé sur GitHub.
 
 Pour le frontend hébergé, la variable `VITE_API_URL` contient l'adresse publique de l'API :
 
@@ -127,3 +126,20 @@ npm run build
 - envoi des e-mails : relais SMTP Brevo.
 
 Les mots de passe et les clés sont enregistrés dans les variables d'environnement de Render. Ils ne sont pas présents dans le dépôt GitHub.
+
+### Variables de l'API sur Render
+
+L'API Render utilise les valeurs fournies par Aiven :
+
+```env
+DB_HOST=adresse-aiven
+DB_PORT=port-aiven
+DB_NAME=trouve_ton_artisan
+DB_USER=utilisateur-aiven
+DB_PASSWORD=mot-de-passe-aiven
+DB_SSL=true
+PORT=3001
+CLIENT_ORIGIN=https://trouve-ton-artisan-frontend-t6xv.onrender.com
+```
+
+Les paramètres SMTP Brevo sont ajoutés dans le même écran de variables d'environnement. L'adresse Aiven et les secrets ne doivent jamais être écrits directement dans le code.

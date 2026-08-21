@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title description">
+  <title id="title">MCD de Trouve ton artisan</title>
+  <desc id="description">Relations entre les catégories, spécialités, artisans et villes.</desc>
+  <defs>
+    <style>
+      .entity { fill: #ffffff; stroke: #00497c; stroke-width: 3; }
+      .header { fill: #0074c7; }
+      .title { fill: white; font: bold 25px Arial, sans-serif; }
+      .field { fill: #384050; font: 20px Arial, sans-serif; }
+      .relation { stroke: #384050; stroke-width: 3; fill: none; }
+      .cardinality { fill: #cd2c2e; font: bold 20px Arial, sans-serif; }
+      .label { fill: #00497c; font: bold 19px Arial, sans-serif; }
+    </style>
+  </defs>
+  <rect width="1200" height="700" fill="#f6f8fb" />
+  <g transform="translate(70 80)">
+    <rect class="entity" width="300" height="190" rx="8" />
+    <path class="header" d="M8 0h284a8 8 0 0 1 8 8v52H0V8a8 8 0 0 1 8-8z" />
+    <text class="title" x="150" y="38" text-anchor="middle">CATÉGORIE</text>
+    <text class="field" x="22" y="98"># id</text>
+    <text class="field" x="22" y="133">nom</text>
+    <text class="field" x="22" y="168">slug</text>
+  </g>
+  <g transform="translate(450 80)">
+    <rect class="entity" width="300" height="190" rx="8" />
+    <path class="header" d="M8 0h284a8 8 0 0 1 8 8v52H0V8a8 8 0 0 1 8-8z" />
+    <text class="title" x="150" y="38" text-anchor="middle">SPÉCIALITÉ</text>
+    <text class="field" x="22" y="98"># id</text>
+    <text class="field" x="22" y="133">nom</text>
+    <text class="field" x="22" y="168">categorie_id</text>
+  </g>
+  <g transform="translate(450 410)">
+    <rect class="entity" width="300" height="220" rx="8" />
+    <path class="header" d="M8 0h284a8 8 0 0 1 8 8v52H0V8a8 8 0 0 1 8-8z" />
+    <text class="title" x="150" y="38" text-anchor="middle">ARTISAN</text>
+    <text class="field" x="22" y="94"># id, nom, note</text>
+    <text class="field" x="22" y="127">à propos, e-mail</text>
+    <text class="field" x="22" y="160">site, image, top</text>
+    <text class="field" x="22" y="193">specialite_id, ville_id</text>
+  </g>
+  <g transform="translate(830 425)">
+    <rect class="entity" width="300" height="160" rx="8" />
+    <path class="header" d="M8 0h284a8 8 0 0 1 8 8v52H0V8a8 8 0 0 1 8-8z" />
+    <text class="title" x="150" y="38" text-anchor="middle">VILLE</text>
+    <text class="field" x="22" y="105"># id</text>
+    <text class="field" x="22" y="140">nom</text>
+  </g>
+  <path class="relation" d="M370 175H450" />
+  <text class="cardinality" x="378" y="160">0,N</text>
+  <text class="cardinality" x="414" y="205">1,1</text>
+  <text class="label" x="410" y="135" text-anchor="middle">contient</text>
+  <path class="relation" d="M600 270V410" />
+  <text class="cardinality" x="615" y="300">0,N</text>
+  <text class="cardinality" x="615" y="395">1,1</text>
+  <text class="label" x="530" y="345">concerne</text>
+  <path class="relation" d="M750 505H830" />
+  <text class="cardinality" x="755" y="488">1,1</text>
+  <text class="cardinality" x="792" y="540">0,N</text>
+  <text class="label" x="790" y="465" text-anchor="middle">est situé dans</text>
+</svg>
