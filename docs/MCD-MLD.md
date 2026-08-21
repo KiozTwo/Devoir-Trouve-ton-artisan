@@ -1,17 +1,23 @@
-# MCD / MLD
+# MCD et MLD
 
-## MCD
+## Modèle conceptuel de données
 
-```mermaid
-erDiagram
-  CATEGORIE ||--o{ SPECIALITE : contient
-  SPECIALITE ||--o{ ARTISAN : classe
-```
+![MCD du projet Trouve ton artisan](mcd.svg)
 
-Cardinalités : un artisan a exactement une spécialité ; une spécialité a exactement une catégorie. Une catégorie ou spécialité peut n'avoir encore aucun artisan.
+### Règles de gestion
 
-## MLD
+- Une catégorie contient zéro ou plusieurs spécialités.
+- Une spécialité appartient à une seule catégorie.
+- Une spécialité concerne zéro ou plusieurs artisans.
+- Un artisan possède une seule spécialité.
+- Une ville regroupe zéro ou plusieurs artisans.
+- Un artisan est installé dans une seule ville.
 
-`CATEGORIES(#id, name, slug)`  
-`SPECIALTIES(#id, name, category_id → CATEGORIES.id)`  
-`ARTISANS(#id, name, rating, city, about, email, website, image, is_top, specialty_id → SPECIALTIES.id)`
+## Modèle logique de données
+
+- `CATEGORIES(id PK, name UQ, slug UQ)`
+- `SPECIALTIES(id PK, name UQ, category_id FK → CATEGORIES.id)`
+- `CITIES(id PK, name UQ)`
+- `ARTISANS(id PK, name, rating, about, email, website, image, is_top, specialty_id FK → SPECIALTIES.id, city_id FK → CITIES.id)`
+
+Les clés étrangères empêchent l’enregistrement d’un artisan avec une spécialité ou une ville inexistante.

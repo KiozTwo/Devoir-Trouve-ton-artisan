@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 
-vi.mock('../src/db.js', () => ({
+vi.mock('../src/models/index.js', () => ({
   sequelize: {
     authenticate: vi.fn().mockResolvedValue()
   },
@@ -13,9 +13,10 @@ vi.mock('../src/db.js', () => ({
     findAll: vi.fn().mockResolvedValue([]),
     findByPk: vi.fn()
   },
-  artisanInclude: {
-    include: [{}]
-  }
+  artisanInclude: [
+    { include: [{}] },
+    {}
+  ]
 }));
 
 import request from 'supertest';

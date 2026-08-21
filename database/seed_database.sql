@@ -1,23 +1,98 @@
 USE trouve_ton_artisan;
 SET NAMES utf8mb4;
-INSERT INTO categories(name,slug) VALUES ('Alimentation','alimentation'),('Bâtiment','batiment'),('Fabrication','fabrication'),('Services','services');
-INSERT INTO specialties(name,category_id) SELECT 'Boucher',id FROM categories WHERE slug='alimentation' UNION ALL SELECT 'Boulanger',id FROM categories WHERE slug='alimentation' UNION ALL SELECT 'Chocolatier',id FROM categories WHERE slug='alimentation' UNION ALL SELECT 'Traiteur',id FROM categories WHERE slug='alimentation' UNION ALL SELECT 'Chauffagiste',id FROM categories WHERE slug='batiment' UNION ALL SELECT 'Electricien',id FROM categories WHERE slug='batiment' UNION ALL SELECT 'Menuisier',id FROM categories WHERE slug='batiment' UNION ALL SELECT 'Plombier',id FROM categories WHERE slug='batiment' UNION ALL SELECT 'Bijoutier',id FROM categories WHERE slug='fabrication' UNION ALL SELECT 'Couturier',id FROM categories WHERE slug='fabrication' UNION ALL SELECT 'Ferronier',id FROM categories WHERE slug='fabrication' UNION ALL SELECT 'Coiffeur',id FROM categories WHERE slug='services' UNION ALL SELECT 'Fleuriste',id FROM categories WHERE slug='services' UNION ALL SELECT 'Toiletteur',id FROM categories WHERE slug='services' UNION ALL SELECT 'Webdesign',id FROM categories WHERE slug='services';
-SET @about='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eleifend ante sem, id volutpat massa fermentum nec. Praesent volutpat scelerisque mauris, quis sollicitudin tellus sollicitudin.';
-INSERT INTO artisans(name,rating,city,about,email,website,is_top,specialty_id) VALUES
-('Boucherie Dumont',4.5,'Lyon',@about,'boucherie.dumond@gmail.com',NULL,FALSE,(SELECT id FROM specialties WHERE name='Boucher')),
-('Au pain chaud',4.8,'Montélimar',@about,'aupainchaud@hotmail.com',NULL,TRUE,(SELECT id FROM specialties WHERE name='Boulanger')),
-('Chocolaterie Labbé',4.9,'Lyon',@about,'chocolaterie-labbe@gmail.com','https://chocolaterie-labbe.fr',TRUE,(SELECT id FROM specialties WHERE name='Chocolatier')),
-('Traiteur Truchon',4.1,'Lyon',@about,'contact@truchon-traiteur.fr','https://truchon-traiteur.fr',FALSE,(SELECT id FROM specialties WHERE name='Traiteur')),
-('Orville Salmons',5.0,'Evian',@about,'o-salmons@live.com',NULL,TRUE,(SELECT id FROM specialties WHERE name='Chauffagiste')),
-('Mont Blanc Eléctricité',4.5,'Chamonix',@about,'contact@mont-blanc-electricite.com','https://mont-blanc-electricite.com',FALSE,(SELECT id FROM specialties WHERE name='Electricien')),
-('Boutot & fils',4.7,'Bourg-en-bresse',@about,'boutot-menuiserie@gmail.com','https://boutot-menuiserie.com',FALSE,(SELECT id FROM specialties WHERE name='Menuisier')),
-('Vallis Bellemare',4.0,'Vienne',@about,'v.bellemare@gmail.com','https://plomberie-bellemare.com',FALSE,(SELECT id FROM specialties WHERE name='Plombier')),
-('Claude Quinn',4.2,'Aix-les-bains',@about,'claude.quinn@gmail.com',NULL,FALSE,(SELECT id FROM specialties WHERE name='Bijoutier')),
-('Amitee Lécuyer',4.5,'Annecy',@about,'a.amitee@hotmail.com','https://lecuyer-couture.com',FALSE,(SELECT id FROM specialties WHERE name='Couturier')),
-('Ernest Carignan',5.0,'Le Puy-en-Velay',@about,'e-carigan@hotmail.com',NULL,FALSE,(SELECT id FROM specialties WHERE name='Ferronier')),
-('Royden Charbonneau',3.8,'Saint-Priest',@about,'r.charbonneau@gmail.com',NULL,FALSE,(SELECT id FROM specialties WHERE name='Coiffeur')),
-('Leala Dennis',3.8,'Chambéry',@about,'l.dennos@hotmail.fr','https://coiffure-leala-chambery.fr',FALSE,(SELECT id FROM specialties WHERE name='Coiffeur')),
-('C''est sup''hair',4.1,'Romans-sur-Isère',@about,'sup-hair@gmail.com','https://sup-hair.fr',FALSE,(SELECT id FROM specialties WHERE name='Coiffeur')),
-('Le monde des fleurs',4.6,'Annonay',@about,'contact@le-monde-des-fleurs-annonay.fr','https://le-monde-des-fleurs-annonay.fr',FALSE,(SELECT id FROM specialties WHERE name='Fleuriste')),
-('Valérie Laderoute',4.5,'Valence',@about,'v-laredoute@gmail.com',NULL,FALSE,(SELECT id FROM specialties WHERE name='Toiletteur')),
-('CM Graphisme',4.4,'Valence',@about,'contact@cm-graphisme.com','https://cm-graphisme.com',FALSE,(SELECT id FROM specialties WHERE name='Webdesign'));
+
+INSERT INTO categories (name, slug) VALUES
+  ('Alimentation', 'alimentation'),
+  ('Bâtiment', 'batiment'),
+  ('Fabrication', 'fabrication'),
+  ('Services', 'services');
+
+INSERT INTO specialties (name, category_id) VALUES
+  ('Boucher', (SELECT id FROM categories WHERE slug = 'alimentation')),
+  ('Boulanger', (SELECT id FROM categories WHERE slug = 'alimentation')),
+  ('Chocolatier', (SELECT id FROM categories WHERE slug = 'alimentation')),
+  ('Traiteur', (SELECT id FROM categories WHERE slug = 'alimentation')),
+  ('Chauffagiste', (SELECT id FROM categories WHERE slug = 'batiment')),
+  ('Electricien', (SELECT id FROM categories WHERE slug = 'batiment')),
+  ('Menuisier', (SELECT id FROM categories WHERE slug = 'batiment')),
+  ('Plombier', (SELECT id FROM categories WHERE slug = 'batiment')),
+  ('Bijoutier', (SELECT id FROM categories WHERE slug = 'fabrication')),
+  ('Couturier', (SELECT id FROM categories WHERE slug = 'fabrication')),
+  ('Ferronier', (SELECT id FROM categories WHERE slug = 'fabrication')),
+  ('Coiffeur', (SELECT id FROM categories WHERE slug = 'services')),
+  ('Fleuriste', (SELECT id FROM categories WHERE slug = 'services')),
+  ('Toiletteur', (SELECT id FROM categories WHERE slug = 'services')),
+  ('Webdesign', (SELECT id FROM categories WHERE slug = 'services'));
+
+INSERT INTO cities (name) VALUES
+  ('Aix-les-Bains'),
+  ('Annecy'),
+  ('Annonay'),
+  ('Bourg-en-Bresse'),
+  ('Chambéry'),
+  ('Chamonix'),
+  ('Évian'),
+  ('Le Puy-en-Velay'),
+  ('Lyon'),
+  ('Montélimar'),
+  ('Romans-sur-Isère'),
+  ('Saint-Priest'),
+  ('Valence'),
+  ('Vienne');
+
+SET @about = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eleifend ante sem, id volutpat massa fermentum nec. Praesent volutpat scelerisque mauris, quis sollicitudin tellus sollicitudin.';
+
+INSERT INTO artisans
+  (name, rating, about, email, website, is_top, specialty_id, city_id)
+VALUES
+  ('Boucherie Dumont', 4.5, @about, 'boucherie.dumond@gmail.com', NULL, FALSE,
+    (SELECT id FROM specialties WHERE name = 'Boucher'),
+    (SELECT id FROM cities WHERE name = 'Lyon')),
+  ('Au pain chaud', 4.8, @about, 'aupainchaud@hotmail.com', NULL, TRUE,
+    (SELECT id FROM specialties WHERE name = 'Boulanger'),
+    (SELECT id FROM cities WHERE name = 'Montélimar')),
+  ('Chocolaterie Labbé', 4.9, @about, 'chocolaterie-labbe@gmail.com', 'https://chocolaterie-labbe.fr', TRUE,
+    (SELECT id FROM specialties WHERE name = 'Chocolatier'),
+    (SELECT id FROM cities WHERE name = 'Lyon')),
+  ('Traiteur Truchon', 4.1, @about, 'contact@truchon-traiteur.fr', 'https://truchon-traiteur.fr', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Traiteur'),
+    (SELECT id FROM cities WHERE name = 'Lyon')),
+  ('Orville Salmons', 5.0, @about, 'o-salmons@live.com', NULL, TRUE,
+    (SELECT id FROM specialties WHERE name = 'Chauffagiste'),
+    (SELECT id FROM cities WHERE name = 'Évian')),
+  ('Mont Blanc Eléctricité', 4.5, @about, 'contact@mont-blanc-electricite.com', 'https://mont-blanc-electricite.com', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Electricien'),
+    (SELECT id FROM cities WHERE name = 'Chamonix')),
+  ('Boutot & fils', 4.7, @about, 'boutot-menuiserie@gmail.com', 'https://boutot-menuiserie.com', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Menuisier'),
+    (SELECT id FROM cities WHERE name = 'Bourg-en-Bresse')),
+  ('Vallis Bellemare', 4.0, @about, 'v.bellemare@gmail.com', 'https://plomberie-bellemare.com', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Plombier'),
+    (SELECT id FROM cities WHERE name = 'Vienne')),
+  ('Claude Quinn', 4.2, @about, 'claude.quinn@gmail.com', NULL, FALSE,
+    (SELECT id FROM specialties WHERE name = 'Bijoutier'),
+    (SELECT id FROM cities WHERE name = 'Aix-les-Bains')),
+  ('Amitee Lécuyer', 4.5, @about, 'a.amitee@hotmail.com', 'https://lecuyer-couture.com', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Couturier'),
+    (SELECT id FROM cities WHERE name = 'Annecy')),
+  ('Ernest Carignan', 5.0, @about, 'e-carigan@hotmail.com', NULL, FALSE,
+    (SELECT id FROM specialties WHERE name = 'Ferronier'),
+    (SELECT id FROM cities WHERE name = 'Le Puy-en-Velay')),
+  ('Royden Charbonneau', 3.8, @about, 'r.charbonneau@gmail.com', NULL, FALSE,
+    (SELECT id FROM specialties WHERE name = 'Coiffeur'),
+    (SELECT id FROM cities WHERE name = 'Saint-Priest')),
+  ('Leala Dennis', 3.8, @about, 'l.dennos@hotmail.fr', 'https://coiffure-leala-chambery.fr', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Coiffeur'),
+    (SELECT id FROM cities WHERE name = 'Chambéry')),
+  ('C''est sup''hair', 4.1, @about, 'sup-hair@gmail.com', 'https://sup-hair.fr', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Coiffeur'),
+    (SELECT id FROM cities WHERE name = 'Romans-sur-Isère')),
+  ('Le monde des fleurs', 4.6, @about, 'contact@le-monde-des-fleurs-annonay.fr', 'https://le-monde-des-fleurs-annonay.fr', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Fleuriste'),
+    (SELECT id FROM cities WHERE name = 'Annonay')),
+  ('Valérie Laderoute', 4.5, @about, 'v-laredoute@gmail.com', NULL, FALSE,
+    (SELECT id FROM specialties WHERE name = 'Toiletteur'),
+    (SELECT id FROM cities WHERE name = 'Valence')),
+  ('CM Graphisme', 4.4, @about, 'contact@cm-graphisme.com', 'https://cm-graphisme.com', FALSE,
+    (SELECT id FROM specialties WHERE name = 'Webdesign'),
+    (SELECT id FROM cities WHERE name = 'Valence'));
